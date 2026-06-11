@@ -1,0 +1,24 @@
+running egg_info
+writing ../../build/aircraft_tracker/aircraft_tracker.egg-info/PKG-INFO
+writing dependency_links to ../../build/aircraft_tracker/aircraft_tracker.egg-info/dependency_links.txt
+writing entry points to ../../build/aircraft_tracker/aircraft_tracker.egg-info/entry_points.txt
+writing requirements to ../../build/aircraft_tracker/aircraft_tracker.egg-info/requires.txt
+writing top-level names to ../../build/aircraft_tracker/aircraft_tracker.egg-info/top_level.txt
+reading manifest file '../../build/aircraft_tracker/aircraft_tracker.egg-info/SOURCES.txt'
+adding license file 'LICENSE'
+writing manifest file '../../build/aircraft_tracker/aircraft_tracker.egg-info/SOURCES.txt'
+running build
+running build_py
+copying aircraft_tracker/sdr_node.py -> /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker
+running install
+running install_lib
+copying /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker/sdr_node.py -> /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker
+byte-compiling /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker/sdr_node.py to sdr_node.cpython-312.pyc
+running install_data
+running install_egg_info
+removing '/ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker-0.0.0-py3.12.egg-info' (and everything under it)
+Copying ../../build/aircraft_tracker/aircraft_tracker.egg-info to /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker-0.0.0-py3.12.egg-info
+running install_scripts
+Installing gps_node script to /ros2_ws/install/aircraft_tracker/lib/aircraft_tracker
+Installing sdr_node script to /ros2_ws/install/aircraft_tracker/lib/aircraft_tracker
+writing list of installed files to '/ros2_ws/build/aircraft_tracker/install.log'

@@ -1,0 +1,91 @@
+[0.000000] (-) TimerEvent: {}
+[0.001643] (test_package) JobQueued: {'identifier': 'test_package', 'dependencies': OrderedDict()}
+[0.002518] (test_package) JobStarted: {'identifier': 'test_package'}
+[0.099286] (-) TimerEvent: {}
+[0.199858] (-) TimerEvent: {}
+[0.300500] (-) TimerEvent: {}
+[0.401097] (-) TimerEvent: {}
+[0.501727] (-) TimerEvent: {}
+[0.602369] (-) TimerEvent: {}
+[0.702902] (-) TimerEvent: {}
+[0.803587] (-) TimerEvent: {}
+[0.904368] (-) TimerEvent: {}
+[1.005098] (-) TimerEvent: {}
+[1.105874] (-) TimerEvent: {}
+[1.206754] (-) TimerEvent: {}
+[1.307369] (-) TimerEvent: {}
+[1.407931] (-) TimerEvent: {}
+[1.508499] (-) TimerEvent: {}
+[1.609071] (-) TimerEvent: {}
+[1.709608] (-) TimerEvent: {}
+[1.810171] (-) TimerEvent: {}
+[1.910689] (-) TimerEvent: {}
+[2.011410] (-) TimerEvent: {}
+[2.112278] (-) TimerEvent: {}
+[2.212845] (-) TimerEvent: {}
+[2.313433] (-) TimerEvent: {}
+[2.414009] (-) TimerEvent: {}
+[2.514555] (-) TimerEvent: {}
+[2.615099] (-) TimerEvent: {}
+[2.715813] (-) TimerEvent: {}
+[2.817106] (-) TimerEvent: {}
+[2.890401] (test_package) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/test_package', 'build', '--build-base', '/ros2_ws/build/test_package/build', 'install', '--record', '/ros2_ws/build/test_package/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/ros2_ws/src/test_package', 'env': {'HOSTNAME': 'maks-desktop', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/lib', 'HOME': '/root', 'OLDPWD': '/ros2_ws/src', 'ROS_PYTHON_VERSION': '3', 'ROS_DISTRO': 'jazzy', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm', 'PATH': '/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'DISPLAY': 'unix', 'LANG': 'C.UTF-8', 'RMW_IMPLEMENTATION': 'rmw_fastrtps_cpp', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'ROS_DOMAIN_ID': '0', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/ros2_ws/build/test_package', 'LC_ALL': 'C.UTF-8', 'PYTHONPATH': '/ros2_ws/build/test_package/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/ros2_ws/install/test_package/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1'}, 'shell': False}
+[2.917195] (-) TimerEvent: {}
+[3.017891] (-) TimerEvent: {}
+[3.118545] (-) TimerEvent: {}
+[3.219106] (-) TimerEvent: {}
+[3.319669] (-) TimerEvent: {}
+[3.420325] (-) TimerEvent: {}
+[3.520866] (-) TimerEvent: {}
+[3.621450] (-) TimerEvent: {}
+[3.722027] (-) TimerEvent: {}
+[3.822565] (-) TimerEvent: {}
+[3.841893] (test_package) StdoutLine: {'line': b'running egg_info\n'}
+[3.843362] (test_package) StdoutLine: {'line': b'creating ../../build/test_package/test_package.egg-info\n'}
+[3.898234] (test_package) StdoutLine: {'line': b'writing ../../build/test_package/test_package.egg-info/PKG-INFO\n'}
+[3.899575] (test_package) StdoutLine: {'line': b'writing dependency_links to ../../build/test_package/test_package.egg-info/dependency_links.txt\n'}
+[3.900389] (test_package) StdoutLine: {'line': b'writing entry points to ../../build/test_package/test_package.egg-info/entry_points.txt\n'}
+[3.901116] (test_package) StdoutLine: {'line': b'writing requirements to ../../build/test_package/test_package.egg-info/requires.txt\n'}
+[3.901751] (test_package) StdoutLine: {'line': b'writing top-level names to ../../build/test_package/test_package.egg-info/top_level.txt\n'}
+[3.902407] (test_package) StdoutLine: {'line': b"writing manifest file '../../build/test_package/test_package.egg-info/SOURCES.txt'\n"}
+[3.922738] (-) TimerEvent: {}
+[4.021092] (test_package) StdoutLine: {'line': b"reading manifest file '../../build/test_package/test_package.egg-info/SOURCES.txt'\n"}
+[4.022237] (test_package) StdoutLine: {'line': b"adding license file 'LICENSE'\n"}
+[4.022840] (-) TimerEvent: {}
+[4.024381] (test_package) StdoutLine: {'line': b"writing manifest file '../../build/test_package/test_package.egg-info/SOURCES.txt'\n"}
+[4.025111] (test_package) StdoutLine: {'line': b'running build\n'}
+[4.025664] (test_package) StdoutLine: {'line': b'running build_py\n'}
+[4.026158] (test_package) StdoutLine: {'line': b'creating /ros2_ws/build/test_package/build\n'}
+[4.026781] (test_package) StdoutLine: {'line': b'creating /ros2_ws/build/test_package/build/lib\n'}
+[4.027456] (test_package) StdoutLine: {'line': b'creating /ros2_ws/build/test_package/build/lib/test_package\n'}
+[4.028062] (test_package) StdoutLine: {'line': b'copying test_package/__init__.py -> /ros2_ws/build/test_package/build/lib/test_package\n'}
+[4.029045] (test_package) StdoutLine: {'line': b'copying test_package/test_node.py -> /ros2_ws/build/test_package/build/lib/test_package\n'}
+[4.031109] (test_package) StdoutLine: {'line': b'running install\n'}
+[4.055856] (test_package) StdoutLine: {'line': b'running install_lib\n'}
+[4.112663] (test_package) StdoutLine: {'line': b'creating /ros2_ws/install/test_package/lib/python3.12/site-packages/test_package\n'}
+[4.113368] (test_package) StdoutLine: {'line': b'copying /ros2_ws/build/test_package/build/lib/test_package/__init__.py -> /ros2_ws/install/test_package/lib/python3.12/site-packages/test_package\n'}
+[4.113942] (test_package) StdoutLine: {'line': b'copying /ros2_ws/build/test_package/build/lib/test_package/test_node.py -> /ros2_ws/install/test_package/lib/python3.12/site-packages/test_package\n'}
+[4.116479] (test_package) StdoutLine: {'line': b'byte-compiling /ros2_ws/install/test_package/lib/python3.12/site-packages/test_package/__init__.py to __init__.cpython-312.pyc\n'}
+[4.117885] (test_package) StdoutLine: {'line': b'byte-compiling /ros2_ws/install/test_package/lib/python3.12/site-packages/test_package/test_node.py to test_node.cpython-312.pyc\n'}
+[4.119238] (test_package) StdoutLine: {'line': b'running install_data\n'}
+[4.119829] (test_package) StdoutLine: {'line': b'creating /ros2_ws/install/test_package/share/ament_index\n'}
+[4.120432] (test_package) StdoutLine: {'line': b'creating /ros2_ws/install/test_package/share/ament_index/resource_index\n'}
+[4.120921] (test_package) StdoutLine: {'line': b'creating /ros2_ws/install/test_package/share/ament_index/resource_index/packages\n'}
+[4.121510] (test_package) StdoutLine: {'line': b'copying resource/test_package -> /ros2_ws/install/test_package/share/ament_index/resource_index/packages\n'}
+[4.122022] (test_package) StdoutLine: {'line': b'copying package.xml -> /ros2_ws/install/test_package/share/test_package\n'}
+[4.122540] (test_package) StdoutLine: {'line': b'running install_egg_info\n'}
+[4.122886] (-) TimerEvent: {}
+[4.185788] (test_package) StdoutLine: {'line': b'Copying ../../build/test_package/test_package.egg-info to /ros2_ws/install/test_package/lib/python3.12/site-packages/test_package-0.0.0-py3.12.egg-info\n'}
+[4.191341] (test_package) StdoutLine: {'line': b'running install_scripts\n'}
+[4.223080] (-) TimerEvent: {}
+[4.323622] (-) TimerEvent: {}
+[4.424202] (-) TimerEvent: {}
+[4.524773] (-) TimerEvent: {}
+[4.625471] (-) TimerEvent: {}
+[4.674165] (test_package) StdoutLine: {'line': b'Installing test_node script to /ros2_ws/install/test_package/lib/test_package\n'}
+[4.675732] (test_package) StdoutLine: {'line': b"writing list of installed files to '/ros2_ws/build/test_package/install.log'\n"}
+[4.725761] (-) TimerEvent: {}
+[4.818193] (test_package) CommandEnded: {'returncode': 0}
+[4.826186] (-) TimerEvent: {}
+[4.862861] (test_package) JobEnded: {'identifier': 'test_package', 'rc': 0}
+[4.866360] (-) EventReactorShutdown: {}

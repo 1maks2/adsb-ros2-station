@@ -1,0 +1,42 @@
+[4.712s] Invoking command in '/ros2_ws/src/aircraft_tracker': PYTHONPATH=/ros2_ws/build/aircraft_tracker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/aircraft_tracker build --build-base /ros2_ws/build/aircraft_tracker/build install --record /ros2_ws/build/aircraft_tracker/install.log --single-version-externally-managed install_data
+[5.794s] running egg_info
+[5.796s] creating ../../build/aircraft_tracker/aircraft_tracker.egg-info
+[5.859s] writing ../../build/aircraft_tracker/aircraft_tracker.egg-info/PKG-INFO
+[5.861s] writing dependency_links to ../../build/aircraft_tracker/aircraft_tracker.egg-info/dependency_links.txt
+[5.862s] writing entry points to ../../build/aircraft_tracker/aircraft_tracker.egg-info/entry_points.txt
+[5.863s] writing requirements to ../../build/aircraft_tracker/aircraft_tracker.egg-info/requires.txt
+[5.865s] writing top-level names to ../../build/aircraft_tracker/aircraft_tracker.egg-info/top_level.txt
+[5.866s] writing manifest file '../../build/aircraft_tracker/aircraft_tracker.egg-info/SOURCES.txt'
+[5.998s] reading manifest file '../../build/aircraft_tracker/aircraft_tracker.egg-info/SOURCES.txt'
+[6.000s] adding license file 'LICENSE'
+[6.002s] writing manifest file '../../build/aircraft_tracker/aircraft_tracker.egg-info/SOURCES.txt'
+[6.003s] running build
+[6.004s] running build_py
+[6.005s] creating /ros2_ws/build/aircraft_tracker/build
+[6.006s] creating /ros2_ws/build/aircraft_tracker/build/lib
+[6.007s] creating /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker
+[6.007s] copying aircraft_tracker/gps_node.py -> /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker
+[6.008s] copying aircraft_tracker/sdr_node.py -> /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker
+[6.009s] copying aircraft_tracker/__init__.py -> /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker
+[6.011s] running install
+[6.037s] running install_lib
+[6.103s] creating /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker
+[6.104s] copying /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker/gps_node.py -> /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker
+[6.105s] copying /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker/sdr_node.py -> /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker
+[6.106s] copying /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker/__init__.py -> /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker
+[6.109s] byte-compiling /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker/gps_node.py to gps_node.cpython-312.pyc
+[6.113s] byte-compiling /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker/sdr_node.py to sdr_node.cpython-312.pyc
+[6.115s] byte-compiling /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker/__init__.py to __init__.cpython-312.pyc
+[6.116s] running install_data
+[6.117s] creating /ros2_ws/install/aircraft_tracker/share/ament_index
+[6.118s] creating /ros2_ws/install/aircraft_tracker/share/ament_index/resource_index
+[6.119s] creating /ros2_ws/install/aircraft_tracker/share/ament_index/resource_index/packages
+[6.120s] copying resource/aircraft_tracker -> /ros2_ws/install/aircraft_tracker/share/ament_index/resource_index/packages
+[6.121s] copying package.xml -> /ros2_ws/install/aircraft_tracker/share/aircraft_tracker
+[6.121s] running install_egg_info
+[6.193s] Copying ../../build/aircraft_tracker/aircraft_tracker.egg-info to /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker-0.0.0-py3.12.egg-info
+[6.200s] running install_scripts
+[6.919s] Installing gps_node script to /ros2_ws/install/aircraft_tracker/lib/aircraft_tracker
+[6.921s] Installing sdr_node script to /ros2_ws/install/aircraft_tracker/lib/aircraft_tracker
+[6.927s] writing list of installed files to '/ros2_ws/build/aircraft_tracker/install.log'
+[7.177s] Invoked command in '/ros2_ws/src/aircraft_tracker' returned '0': PYTHONPATH=/ros2_ws/build/aircraft_tracker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/aircraft_tracker build --build-base /ros2_ws/build/aircraft_tracker/build install --record /ros2_ws/build/aircraft_tracker/install.log --single-version-externally-managed install_data

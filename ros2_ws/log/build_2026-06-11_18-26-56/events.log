@@ -1,0 +1,152 @@
+[0.000000] (-) TimerEvent: {}
+[0.007917] (-) JobUnselected: {'identifier': 'test_package'}
+[0.009945] (aircraft_tracker) JobQueued: {'identifier': 'aircraft_tracker', 'dependencies': OrderedDict()}
+[0.010852] (aircraft_tracker) JobStarted: {'identifier': 'aircraft_tracker'}
+[0.099439] (-) TimerEvent: {}
+[0.201759] (-) TimerEvent: {}
+[0.303241] (-) TimerEvent: {}
+[0.414270] (-) TimerEvent: {}
+[0.518839] (-) TimerEvent: {}
+[0.623240] (-) TimerEvent: {}
+[0.729830] (-) TimerEvent: {}
+[0.832064] (-) TimerEvent: {}
+[0.938481] (-) TimerEvent: {}
+[1.044275] (-) TimerEvent: {}
+[1.149420] (-) TimerEvent: {}
+[1.253779] (-) TimerEvent: {}
+[1.360584] (-) TimerEvent: {}
+[1.465815] (-) TimerEvent: {}
+[1.572998] (-) TimerEvent: {}
+[1.684857] (-) TimerEvent: {}
+[1.788201] (-) TimerEvent: {}
+[1.896630] (-) TimerEvent: {}
+[2.001534] (-) TimerEvent: {}
+[2.111162] (-) TimerEvent: {}
+[2.216839] (-) TimerEvent: {}
+[2.317590] (-) TimerEvent: {}
+[2.426411] (-) TimerEvent: {}
+[2.534853] (-) TimerEvent: {}
+[2.641548] (-) TimerEvent: {}
+[2.746889] (-) TimerEvent: {}
+[2.849913] (-) TimerEvent: {}
+[2.954381] (-) TimerEvent: {}
+[3.058003] (-) TimerEvent: {}
+[3.163154] (-) TimerEvent: {}
+[3.269386] (-) TimerEvent: {}
+[3.374855] (-) TimerEvent: {}
+[3.475756] (-) TimerEvent: {}
+[3.576529] (-) TimerEvent: {}
+[3.697824] (-) TimerEvent: {}
+[3.799166] (-) TimerEvent: {}
+[3.906900] (-) TimerEvent: {}
+[4.008696] (-) TimerEvent: {}
+[4.113468] (-) TimerEvent: {}
+[4.226023] (-) TimerEvent: {}
+[4.328026] (-) TimerEvent: {}
+[4.433806] (-) TimerEvent: {}
+[4.536849] (-) TimerEvent: {}
+[4.640937] (-) TimerEvent: {}
+[4.742392] (-) TimerEvent: {}
+[4.845142] (-) TimerEvent: {}
+[4.946561] (-) TimerEvent: {}
+[5.050134] (-) TimerEvent: {}
+[5.155873] (-) TimerEvent: {}
+[5.259104] (-) TimerEvent: {}
+[5.360197] (-) TimerEvent: {}
+[5.461761] (-) TimerEvent: {}
+[5.562560] (-) TimerEvent: {}
+[5.663343] (-) TimerEvent: {}
+[5.764282] (-) TimerEvent: {}
+[5.865177] (-) TimerEvent: {}
+[5.967730] (-) TimerEvent: {}
+[6.068852] (-) TimerEvent: {}
+[6.172162] (-) TimerEvent: {}
+[6.276863] (-) TimerEvent: {}
+[6.381592] (-) TimerEvent: {}
+[6.485239] (-) TimerEvent: {}
+[6.590957] (-) TimerEvent: {}
+[6.700855] (-) TimerEvent: {}
+[6.804199] (-) TimerEvent: {}
+[6.908967] (-) TimerEvent: {}
+[7.010148] (-) TimerEvent: {}
+[7.111052] (-) TimerEvent: {}
+[7.213970] (-) TimerEvent: {}
+[7.316882] (-) TimerEvent: {}
+[7.418792] (-) TimerEvent: {}
+[7.521807] (-) TimerEvent: {}
+[7.622837] (-) TimerEvent: {}
+[7.723833] (-) TimerEvent: {}
+[7.824614] (-) TimerEvent: {}
+[7.925476] (-) TimerEvent: {}
+[8.027066] (-) TimerEvent: {}
+[8.129842] (-) TimerEvent: {}
+[8.230949] (-) TimerEvent: {}
+[8.332799] (-) TimerEvent: {}
+[8.365550] (aircraft_tracker) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/aircraft_tracker', 'build', '--build-base', '/ros2_ws/build/aircraft_tracker/build', 'install', '--record', '/ros2_ws/build/aircraft_tracker/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/ros2_ws/src/aircraft_tracker', 'env': {'HOSTNAME': 'maks-desktop', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/lib', 'HOME': '/root', 'OLDPWD': '/ros2_ws', 'ROS_PYTHON_VERSION': '3', 'ROS_DISTRO': 'jazzy', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm', 'PATH': '/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'LANG': 'C.UTF-8', 'RMW_IMPLEMENTATION': 'rmw_fastrtps_cpp', 'ROS_DOMAIN_ID': '0', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/ros2_ws/build/aircraft_tracker', 'LC_ALL': 'C.UTF-8', 'PYTHONPATH': '/ros2_ws/build/aircraft_tracker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1'}, 'shell': False}
+[8.433082] (-) TimerEvent: {}
+[8.533806] (-) TimerEvent: {}
+[8.634594] (-) TimerEvent: {}
+[8.736696] (-) TimerEvent: {}
+[8.839983] (-) TimerEvent: {}
+[8.944340] (-) TimerEvent: {}
+[9.045810] (-) TimerEvent: {}
+[9.148830] (-) TimerEvent: {}
+[9.251807] (-) TimerEvent: {}
+[9.355712] (-) TimerEvent: {}
+[9.456739] (-) TimerEvent: {}
+[9.558896] (-) TimerEvent: {}
+[9.660999] (-) TimerEvent: {}
+[9.765073] (-) TimerEvent: {}
+[9.867396] (-) TimerEvent: {}
+[9.971628] (-) TimerEvent: {}
+[10.075811] (-) TimerEvent: {}
+[10.177343] (-) TimerEvent: {}
+[10.279012] (-) TimerEvent: {}
+[10.375104] (aircraft_tracker) StdoutLine: {'line': b'running egg_info\n'}
+[10.379276] (-) TimerEvent: {}
+[10.483809] (-) TimerEvent: {}
+[10.519140] (aircraft_tracker) StdoutLine: {'line': b'writing ../../build/aircraft_tracker/aircraft_tracker.egg-info/PKG-INFO\n'}
+[10.521219] (aircraft_tracker) StdoutLine: {'line': b'writing dependency_links to ../../build/aircraft_tracker/aircraft_tracker.egg-info/dependency_links.txt\n'}
+[10.527422] (aircraft_tracker) StdoutLine: {'line': b'writing entry points to ../../build/aircraft_tracker/aircraft_tracker.egg-info/entry_points.txt\n'}
+[10.528950] (aircraft_tracker) StdoutLine: {'line': b'writing requirements to ../../build/aircraft_tracker/aircraft_tracker.egg-info/requires.txt\n'}
+[10.531073] (aircraft_tracker) StdoutLine: {'line': b'writing top-level names to ../../build/aircraft_tracker/aircraft_tracker.egg-info/top_level.txt\n'}
+[10.586213] (-) TimerEvent: {}
+[10.692166] (-) TimerEvent: {}
+[10.798718] (-) TimerEvent: {}
+[10.893755] (aircraft_tracker) StdoutLine: {'line': b"reading manifest file '../../build/aircraft_tracker/aircraft_tracker.egg-info/SOURCES.txt'\n"}
+[10.900843] (-) TimerEvent: {}
+[10.904037] (aircraft_tracker) StdoutLine: {'line': b"adding license file 'LICENSE'\n"}
+[10.910933] (aircraft_tracker) StdoutLine: {'line': b"writing manifest file '../../build/aircraft_tracker/aircraft_tracker.egg-info/SOURCES.txt'\n"}
+[10.912744] (aircraft_tracker) StdoutLine: {'line': b'running build\n'}
+[10.913905] (aircraft_tracker) StdoutLine: {'line': b'running build_py\n'}
+[10.916245] (aircraft_tracker) StdoutLine: {'line': b'running install\n'}
+[10.983374] (aircraft_tracker) StdoutLine: {'line': b'running install_lib\n'}
+[11.001069] (-) TimerEvent: {}
+[11.104165] (-) TimerEvent: {}
+[11.153934] (aircraft_tracker) StdoutLine: {'line': b'running install_data\n'}
+[11.159858] (aircraft_tracker) StdoutLine: {'line': b'running install_egg_info\n'}
+[11.206834] (-) TimerEvent: {}
+[11.304632] (aircraft_tracker) StdoutLine: {'line': b"removing '/ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker-0.0.0-py3.12.egg-info' (and everything under it)\n"}
+[11.307878] (-) TimerEvent: {}
+[11.311089] (aircraft_tracker) StdoutLine: {'line': b'Copying ../../build/aircraft_tracker/aircraft_tracker.egg-info to /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker-0.0.0-py3.12.egg-info\n'}
+[11.325224] (aircraft_tracker) StdoutLine: {'line': b'running install_scripts\n'}
+[11.410828] (-) TimerEvent: {}
+[11.516824] (-) TimerEvent: {}
+[11.624847] (-) TimerEvent: {}
+[11.726848] (-) TimerEvent: {}
+[11.830435] (-) TimerEvent: {}
+[11.939840] (-) TimerEvent: {}
+[12.042825] (-) TimerEvent: {}
+[12.146170] (-) TimerEvent: {}
+[12.248021] (-) TimerEvent: {}
+[12.301771] (aircraft_tracker) StdoutLine: {'line': b'Installing display_node script to /ros2_ws/install/aircraft_tracker/lib/aircraft_tracker\n'}
+[12.303142] (aircraft_tracker) StdoutLine: {'line': b'Installing gps_node script to /ros2_ws/install/aircraft_tracker/lib/aircraft_tracker\n'}
+[12.304130] (aircraft_tracker) StdoutLine: {'line': b'Installing sdr_node script to /ros2_ws/install/aircraft_tracker/lib/aircraft_tracker\n'}
+[12.306301] (aircraft_tracker) StdoutLine: {'line': b"writing list of installed files to '/ros2_ws/build/aircraft_tracker/install.log'\n"}
+[12.351035] (-) TimerEvent: {}
+[12.455006] (-) TimerEvent: {}
+[12.513387] (aircraft_tracker) CommandEnded: {'returncode': 0}
+[12.555288] (-) TimerEvent: {}
+[12.661942] (-) TimerEvent: {}
+[12.673708] (aircraft_tracker) JobEnded: {'identifier': 'aircraft_tracker', 'rc': 0}
+[12.688308] (-) EventReactorShutdown: {}

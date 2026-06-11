@@ -1,0 +1,144 @@
+[0.000000] (-) TimerEvent: {}
+[0.001235] (aircraft_tracker) JobQueued: {'identifier': 'aircraft_tracker', 'dependencies': OrderedDict()}
+[0.002817] (test_package) JobQueued: {'identifier': 'test_package', 'dependencies': OrderedDict()}
+[0.003650] (aircraft_tracker) JobStarted: {'identifier': 'aircraft_tracker'}
+[0.069953] (test_package) JobStarted: {'identifier': 'test_package'}
+[0.099452] (-) TimerEvent: {}
+[0.200813] (-) TimerEvent: {}
+[0.301839] (-) TimerEvent: {}
+[0.402496] (-) TimerEvent: {}
+[0.503176] (-) TimerEvent: {}
+[0.603801] (-) TimerEvent: {}
+[0.704458] (-) TimerEvent: {}
+[0.805052] (-) TimerEvent: {}
+[0.905846] (-) TimerEvent: {}
+[1.006649] (-) TimerEvent: {}
+[1.107369] (-) TimerEvent: {}
+[1.208268] (-) TimerEvent: {}
+[1.308907] (-) TimerEvent: {}
+[1.409622] (-) TimerEvent: {}
+[1.510225] (-) TimerEvent: {}
+[1.610857] (-) TimerEvent: {}
+[1.711590] (-) TimerEvent: {}
+[1.820288] (-) TimerEvent: {}
+[1.921268] (-) TimerEvent: {}
+[2.022224] (-) TimerEvent: {}
+[2.122946] (-) TimerEvent: {}
+[2.223806] (-) TimerEvent: {}
+[2.326053] (-) TimerEvent: {}
+[2.428193] (-) TimerEvent: {}
+[2.528839] (-) TimerEvent: {}
+[2.629546] (-) TimerEvent: {}
+[2.730209] (-) TimerEvent: {}
+[2.830859] (-) TimerEvent: {}
+[2.931684] (-) TimerEvent: {}
+[3.032415] (-) TimerEvent: {}
+[3.133162] (-) TimerEvent: {}
+[3.233857] (-) TimerEvent: {}
+[3.334512] (-) TimerEvent: {}
+[3.435326] (-) TimerEvent: {}
+[3.536047] (-) TimerEvent: {}
+[3.636831] (-) TimerEvent: {}
+[3.737575] (-) TimerEvent: {}
+[3.838319] (-) TimerEvent: {}
+[3.938943] (-) TimerEvent: {}
+[4.039616] (-) TimerEvent: {}
+[4.140316] (-) TimerEvent: {}
+[4.240967] (-) TimerEvent: {}
+[4.341718] (-) TimerEvent: {}
+[4.442541] (-) TimerEvent: {}
+[4.543494] (-) TimerEvent: {}
+[4.645857] (-) TimerEvent: {}
+[4.713856] (aircraft_tracker) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/aircraft_tracker', 'build', '--build-base', '/ros2_ws/build/aircraft_tracker/build', 'install', '--record', '/ros2_ws/build/aircraft_tracker/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/ros2_ws/src/aircraft_tracker', 'env': {'HOSTNAME': 'maks-desktop', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/lib', 'HOME': '/root', 'ROS_PYTHON_VERSION': '3', 'ROS_DISTRO': 'jazzy', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm', 'PATH': '/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'DISPLAY': 'unix', 'LANG': 'C.UTF-8', 'RMW_IMPLEMENTATION': 'rmw_fastrtps_cpp', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'ROS_DOMAIN_ID': '0', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/ros2_ws/build/aircraft_tracker', 'LC_ALL': 'C.UTF-8', 'PYTHONPATH': '/ros2_ws/build/aircraft_tracker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1'}, 'shell': False}
+[4.733560] (test_package) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/test_package', 'build', '--build-base', '/ros2_ws/build/test_package/build', 'install', '--record', '/ros2_ws/build/test_package/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/ros2_ws/src/test_package', 'env': {'HOSTNAME': 'maks-desktop', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/lib', 'HOME': '/root', 'ROS_PYTHON_VERSION': '3', 'ROS_DISTRO': 'jazzy', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm', 'PATH': '/opt/ros/jazzy/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin', 'DISPLAY': 'unix', 'LANG': 'C.UTF-8', 'RMW_IMPLEMENTATION': 'rmw_fastrtps_cpp', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'ROS_DOMAIN_ID': '0', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/ros2_ws/build/test_package', 'LC_ALL': 'C.UTF-8', 'PYTHONPATH': '/ros2_ws/build/test_package/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/ros2_ws/install/test_package/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1'}, 'shell': False}
+[4.747083] (-) TimerEvent: {}
+[4.849962] (-) TimerEvent: {}
+[4.950873] (-) TimerEvent: {}
+[5.055186] (-) TimerEvent: {}
+[5.155908] (-) TimerEvent: {}
+[5.256729] (-) TimerEvent: {}
+[5.357424] (-) TimerEvent: {}
+[5.458062] (-) TimerEvent: {}
+[5.558740] (-) TimerEvent: {}
+[5.659423] (-) TimerEvent: {}
+[5.760432] (-) TimerEvent: {}
+[5.797438] (aircraft_tracker) StdoutLine: {'line': b'running egg_info\n'}
+[5.798949] (aircraft_tracker) StdoutLine: {'line': b'creating ../../build/aircraft_tracker/aircraft_tracker.egg-info\n'}
+[5.812373] (test_package) StdoutLine: {'line': b'running egg_info\n'}
+[5.860602] (-) TimerEvent: {}
+[5.861640] (aircraft_tracker) StdoutLine: {'line': b'writing ../../build/aircraft_tracker/aircraft_tracker.egg-info/PKG-INFO\n'}
+[5.863830] (aircraft_tracker) StdoutLine: {'line': b'writing dependency_links to ../../build/aircraft_tracker/aircraft_tracker.egg-info/dependency_links.txt\n'}
+[5.864839] (aircraft_tracker) StdoutLine: {'line': b'writing entry points to ../../build/aircraft_tracker/aircraft_tracker.egg-info/entry_points.txt\n'}
+[5.865988] (aircraft_tracker) StdoutLine: {'line': b'writing requirements to ../../build/aircraft_tracker/aircraft_tracker.egg-info/requires.txt\n'}
+[5.867363] (aircraft_tracker) StdoutLine: {'line': b'writing top-level names to ../../build/aircraft_tracker/aircraft_tracker.egg-info/top_level.txt\n'}
+[5.869018] (aircraft_tracker) StdoutLine: {'line': b"writing manifest file '../../build/aircraft_tracker/aircraft_tracker.egg-info/SOURCES.txt'\n"}
+[5.879447] (test_package) StdoutLine: {'line': b'writing ../../build/test_package/test_package.egg-info/PKG-INFO\n'}
+[5.880488] (test_package) StdoutLine: {'line': b'writing dependency_links to ../../build/test_package/test_package.egg-info/dependency_links.txt\n'}
+[5.882286] (test_package) StdoutLine: {'line': b'writing entry points to ../../build/test_package/test_package.egg-info/entry_points.txt\n'}
+[5.883273] (test_package) StdoutLine: {'line': b'writing requirements to ../../build/test_package/test_package.egg-info/requires.txt\n'}
+[5.884442] (test_package) StdoutLine: {'line': b'writing top-level names to ../../build/test_package/test_package.egg-info/top_level.txt\n'}
+[5.960781] (-) TimerEvent: {}
+[6.001572] (aircraft_tracker) StdoutLine: {'line': b"reading manifest file '../../build/aircraft_tracker/aircraft_tracker.egg-info/SOURCES.txt'\n"}
+[6.002844] (aircraft_tracker) StdoutLine: {'line': b"adding license file 'LICENSE'\n"}
+[6.005060] (aircraft_tracker) StdoutLine: {'line': b"writing manifest file '../../build/aircraft_tracker/aircraft_tracker.egg-info/SOURCES.txt'\n"}
+[6.006049] (aircraft_tracker) StdoutLine: {'line': b'running build\n'}
+[6.006751] (aircraft_tracker) StdoutLine: {'line': b'running build_py\n'}
+[6.008010] (aircraft_tracker) StdoutLine: {'line': b'creating /ros2_ws/build/aircraft_tracker/build\n'}
+[6.008811] (aircraft_tracker) StdoutLine: {'line': b'creating /ros2_ws/build/aircraft_tracker/build/lib\n'}
+[6.009799] (aircraft_tracker) StdoutLine: {'line': b'creating /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker\n'}
+[6.010479] (aircraft_tracker) StdoutLine: {'line': b'copying aircraft_tracker/gps_node.py -> /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker\n'}
+[6.011084] (aircraft_tracker) StdoutLine: {'line': b'copying aircraft_tracker/sdr_node.py -> /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker\n'}
+[6.011859] (aircraft_tracker) StdoutLine: {'line': b'copying aircraft_tracker/__init__.py -> /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker\n'}
+[6.014358] (aircraft_tracker) StdoutLine: {'line': b'running install\n'}
+[6.021555] (test_package) StdoutLine: {'line': b"reading manifest file '../../build/test_package/test_package.egg-info/SOURCES.txt'\n"}
+[6.024900] (test_package) StdoutLine: {'line': b"adding license file 'LICENSE'\n"}
+[6.027281] (test_package) StdoutLine: {'line': b"writing manifest file '../../build/test_package/test_package.egg-info/SOURCES.txt'\n"}
+[6.031163] (test_package) StdoutLine: {'line': b'running build\n'}
+[6.031886] (test_package) StdoutLine: {'line': b'running build_py\n'}
+[6.032638] (test_package) StdoutLine: {'line': b'running install\n'}
+[6.040027] (aircraft_tracker) StdoutLine: {'line': b'running install_lib\n'}
+[6.057397] (test_package) StdoutLine: {'line': b'running install_lib\n'}
+[6.060927] (-) TimerEvent: {}
+[6.106315] (aircraft_tracker) StdoutLine: {'line': b'creating /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker\n'}
+[6.107364] (aircraft_tracker) StdoutLine: {'line': b'copying /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker/gps_node.py -> /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker\n'}
+[6.108153] (aircraft_tracker) StdoutLine: {'line': b'copying /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker/sdr_node.py -> /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker\n'}
+[6.109375] (aircraft_tracker) StdoutLine: {'line': b'copying /ros2_ws/build/aircraft_tracker/build/lib/aircraft_tracker/__init__.py -> /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker\n'}
+[6.111776] (aircraft_tracker) StdoutLine: {'line': b'byte-compiling /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker/gps_node.py to gps_node.cpython-312.pyc\n'}
+[6.116615] (aircraft_tracker) StdoutLine: {'line': b'byte-compiling /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker/sdr_node.py to sdr_node.cpython-312.pyc\n'}
+[6.118202] (aircraft_tracker) StdoutLine: {'line': b'byte-compiling /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker/__init__.py to __init__.cpython-312.pyc\n'}
+[6.119444] (aircraft_tracker) StdoutLine: {'line': b'running install_data\n'}
+[6.120325] (aircraft_tracker) StdoutLine: {'line': b'creating /ros2_ws/install/aircraft_tracker/share/ament_index\n'}
+[6.121437] (aircraft_tracker) StdoutLine: {'line': b'creating /ros2_ws/install/aircraft_tracker/share/ament_index/resource_index\n'}
+[6.121997] (aircraft_tracker) StdoutLine: {'line': b'creating /ros2_ws/install/aircraft_tracker/share/ament_index/resource_index/packages\n'}
+[6.123407] (aircraft_tracker) StdoutLine: {'line': b'copying resource/aircraft_tracker -> /ros2_ws/install/aircraft_tracker/share/ament_index/resource_index/packages\n'}
+[6.124115] (aircraft_tracker) StdoutLine: {'line': b'copying package.xml -> /ros2_ws/install/aircraft_tracker/share/aircraft_tracker\n'}
+[6.124662] (aircraft_tracker) StdoutLine: {'line': b'running install_egg_info\n'}
+[6.131447] (test_package) StdoutLine: {'line': b'running install_data\n'}
+[6.132437] (test_package) StdoutLine: {'line': b'running install_egg_info\n'}
+[6.161130] (-) TimerEvent: {}
+[6.195960] (aircraft_tracker) StdoutLine: {'line': b'Copying ../../build/aircraft_tracker/aircraft_tracker.egg-info to /ros2_ws/install/aircraft_tracker/lib/python3.12/site-packages/aircraft_tracker-0.0.0-py3.12.egg-info\n'}
+[6.202725] (aircraft_tracker) StdoutLine: {'line': b'running install_scripts\n'}
+[6.205011] (test_package) StdoutLine: {'line': b"removing '/ros2_ws/install/test_package/lib/python3.12/site-packages/test_package-0.0.0-py3.12.egg-info' (and everything under it)\n"}
+[6.207332] (test_package) StdoutLine: {'line': b'Copying ../../build/test_package/test_package.egg-info to /ros2_ws/install/test_package/lib/python3.12/site-packages/test_package-0.0.0-py3.12.egg-info\n'}
+[6.216307] (test_package) StdoutLine: {'line': b'running install_scripts\n'}
+[6.261267] (-) TimerEvent: {}
+[6.363250] (-) TimerEvent: {}
+[6.463974] (-) TimerEvent: {}
+[6.566313] (-) TimerEvent: {}
+[6.667186] (-) TimerEvent: {}
+[6.767887] (-) TimerEvent: {}
+[6.869388] (-) TimerEvent: {}
+[6.922378] (aircraft_tracker) StdoutLine: {'line': b'Installing gps_node script to /ros2_ws/install/aircraft_tracker/lib/aircraft_tracker\n'}
+[6.924212] (aircraft_tracker) StdoutLine: {'line': b'Installing sdr_node script to /ros2_ws/install/aircraft_tracker/lib/aircraft_tracker\n'}
+[6.929854] (aircraft_tracker) StdoutLine: {'line': b"writing list of installed files to '/ros2_ws/build/aircraft_tracker/install.log'\n"}
+[6.954074] (test_package) StdoutLine: {'line': b'Installing test_node script to /ros2_ws/install/test_package/lib/test_package\n'}
+[6.962577] (test_package) StdoutLine: {'line': b"writing list of installed files to '/ros2_ws/build/test_package/install.log'\n"}
+[6.971168] (-) TimerEvent: {}
+[7.073484] (-) TimerEvent: {}
+[7.180241] (aircraft_tracker) CommandEnded: {'returncode': 0}
+[7.181651] (-) TimerEvent: {}
+[7.283276] (-) TimerEvent: {}
+[7.288934] (aircraft_tracker) JobEnded: {'identifier': 'aircraft_tracker', 'rc': 0}
+[7.293568] (test_package) CommandEnded: {'returncode': 0}
+[7.340394] (test_package) JobEnded: {'identifier': 'test_package', 'rc': 0}
+[7.351387] (-) EventReactorShutdown: {}
