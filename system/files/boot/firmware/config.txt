@@ -58,6 +58,6 @@ dtoverlay=dwc2,dr_mode=host
 [all]
 enable_uart=1
 dtoverlay=disable-bt
-dtoverlay=gpio-shutdown,gpio_pin=3
+#dtoverlay=gpio-shutdown,gpio_pin=3
 dtoverlay=gpio-poweroff,gpiopin=17,active_low=1
 
