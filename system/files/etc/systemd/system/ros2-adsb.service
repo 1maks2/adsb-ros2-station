@@ -1,0 +1,14 @@
+[Unit]
+Description=ROS2 ADS-B Tracker
+After=docker.service dump1090.service
+Requires=docker.service
+
+[Service]
+ExecStart=/usr/bin/docker compose -f /home/maks/ros2_sdr/docker-composer.yml up
+ExecStop=/usr/bin/docker compose -f /home/maks/ros2_sdr/docker-composer.yml down
+Restart=on-failure
+User=maks
+WorkingDirectory=/home/maks/ros2_sdr
+
+[Install]
+WantedBy=multi-user.target

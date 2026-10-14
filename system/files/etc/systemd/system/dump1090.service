@@ -1,0 +1,11 @@
+[Unit]
+Description=dump1090 ADS-B receiver
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/dump1090-mutability --net
+Restart=always
+User=maks
+
+[Install]
+WantedBy=multi-user.target

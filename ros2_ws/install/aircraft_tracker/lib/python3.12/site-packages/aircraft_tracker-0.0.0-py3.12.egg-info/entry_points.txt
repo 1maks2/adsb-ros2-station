@@ -1,4 +1,0 @@
-[console_scripts]
-display_node = aircraft_tracker.display_node:main
-gps_node = aircraft_tracker.gps_node:main
-sdr_node = aircraft_tracker.sdr_node:main

@@ -1,0 +1,10 @@
+[Unit]
+Description=GPIO3 power button shutdown
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/local/bin/power-button.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
