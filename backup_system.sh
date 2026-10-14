@@ -12,7 +12,6 @@ STATE_DIR="$DEST/state"
 # 1 = kopiuj też konfigurację sieci (netplan). UWAGA: zawiera hasła Wi-Fi!
 INCLUDE_NETPLAN=0
 
-# Pojedyncze pliki konfiguracyjne do skopiowania
 FILES=(
   /boot/firmware/config.txt
   /boot/firmware/cmdline.txt
@@ -22,7 +21,6 @@ FILES=(
   /usr/local/sbin/ensure-gpio-shutdown.sh
 )
 
-# Całe katalogi do skopiowania
 DIRS=(
   /etc/systemd/logind.conf.d
   /etc/docker
@@ -47,11 +45,18 @@ echo "[INFO] Kopiuję pliki konfiguracyjne..."
 for f in "${FILES[@]}"; do copy_path "$f"; done
 for d in "${DIRS[@]}"; do copy_path "$d"; done
 
-# Własne usługi systemd (zwykłe pliki, nie symlinki od pakietów)
-echo "[INFO] Kopiuję własne usługi systemd..."
-while IFS= read -r unit; do
+echo "[INFO] Kopiuję własne usługi systemd i ich skrypty..."
+UNITS=$(sudo find /etc/systemd/system -maxdepth 1 -type f \
+          \( -name '*.service' -o -name '*.timer' \) ! -name 'snap.*')
+for unit in $UNITS; do
   copy_path "$unit"
-done < <(sudo find /etc/systemd/system -maxdepth 1 -type f \( -name '*.service' -o -name '*.timer' \))
+done
+for exe in $(sudo grep -hE '^Exec(Start|StartPre|StartPost|Stop)=' $UNITS 2>/dev/null \
+               | sed -E 's/^[^=]+=[-@+!:]*//' | tr ' ' '\n' \
+               | grep -E '^/(usr/local|opt|home|srv|root)/' | sort -u); do
+  case "$exe" in "$REPO_DIR"/*) continue ;; esac
+  sudo test -f "$exe" && copy_path "$exe"
+done
 
 if [ "$INCLUDE_NETPLAN" = "1" ]; then
   copy_path /etc/netplan
@@ -72,7 +77,6 @@ crontab -l 2>/dev/null                                 > "$STATE_DIR/crontab-use
 sudo crontab -l 2>/dev/null                            > "$STATE_DIR/crontab-root.txt"  || true
 docker images --format '{{.Repository}}:{{.Tag}}' 2>/dev/null > "$STATE_DIR/docker-images.txt" || true
 
-# Pliki skopiowane przez sudo należą do roota – oddaj je użytkownikowi
 sudo chown -R "$(id -u):$(id -g)" "$DEST"
 
 echo "[INFO] Commit i push..."
