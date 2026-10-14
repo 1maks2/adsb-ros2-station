@@ -68,3 +68,6 @@ ros2_ws/install/
 ros2_ws/log/
 __pycache__/
 *.pyc
+# Kopia konfiguracji systemu – nie ignoruj bin/ i lib/
+!system/files/**/bin/
+!system/files/**/lib/
