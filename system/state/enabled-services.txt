@@ -6,8 +6,9 @@ snap-core22-2293.mount                         enabled enabled
 snap-core22-2412.mount                         enabled enabled
 snap-core24-1644.mount                         enabled enabled
 snap-core24-2125.mount                         enabled enabled
-snap-cups-1171.mount                           enabled enabled
+snap-core26-649.mount                          enabled enabled
 snap-cups-1184.mount                           enabled enabled
+snap-cups-1264.mount                           enabled enabled
 snap-firefox-7764.mount                        enabled enabled
 snap-gnome\x2d42\x2d2204-245.mount             enabled enabled
 snap-gnome\x2d46\x2d2404-154.mount             enabled enabled
@@ -18,8 +19,8 @@ snap-snap\x2dstore-1391.mount                  enabled enabled
 snap-snap\x2dstore-1448.mount                  enabled enabled
 snap-snapd-26869.mount                         enabled enabled
 snap-snapd-27709.mount                         enabled enabled
-snap-snapd\x2ddesktop\x2dintegration-346.mount enabled enabled
 snap-snapd\x2ddesktop\x2dintegration-363.mount enabled enabled
+snap-snapd\x2ddesktop\x2dintegration-396.mount enabled enabled
 snap-thunderbird-1105.mount                    enabled enabled
 snap-thunderbird-1281.mount                    enabled enabled
 apport-autoreport.path                         enabled enabled
@@ -131,4 +132,4 @@ ua-timer.timer                                 enabled enabled
 update-notifier-download.timer                 enabled enabled
 update-notifier-motd.timer                     enabled enabled
 
-131 unit files listed.
+132 unit files listed.
