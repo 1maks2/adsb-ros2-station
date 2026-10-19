@@ -1,4 +1,4 @@
-# Data kopii: 2026-10-17T18:33:35+02:00
+# Data kopii: 2026-10-19T19:11:31+02:00
 
 ## /etc/os-release
 PRETTY_NAME="Ubuntu 24.04.4 LTS"
@@ -16,7 +16,7 @@ UBUNTU_CODENAME=noble
 LOGO=ubuntu-logo
 
 ## uname -a
-Linux maks-desktop 6.8.0-1060-raspi #64-Ubuntu SMP PREEMPT_DYNAMIC Mon Jun 29 09:05:15 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux
+Linux maks-desktop 6.8.0-1065-raspi #69-Ubuntu SMP PREEMPT_DYNAMIC Tue Sep  8 18:10:10 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux
 
 ## Model
 Raspberry Pi 4 Model B Rev 1.4

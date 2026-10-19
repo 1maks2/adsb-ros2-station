@@ -17,8 +17,8 @@ snap-mesa\x2d2404-1166.mount                   enabled enabled
 snap-mesa\x2d2404-1836.mount                   enabled enabled
 snap-snap\x2dstore-1391.mount                  enabled enabled
 snap-snap\x2dstore-1448.mount                  enabled enabled
-snap-snapd-26869.mount                         enabled enabled
 snap-snapd-27709.mount                         enabled enabled
+snap-snapd-28255.mount                         enabled enabled
 snap-snapd\x2ddesktop\x2dintegration-363.mount enabled enabled
 snap-snapd\x2ddesktop\x2dintegration-396.mount enabled enabled
 snap-thunderbird-1105.mount                    enabled enabled
