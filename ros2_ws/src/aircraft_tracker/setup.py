@@ -26,7 +26,8 @@ setup(
         'console_scripts': [
             'sdr_node = aircraft_tracker.sdr_node:main',
             'gps_node = aircraft_tracker.gps_node:main',
-            'display_node = aircraft_tracker.display_node:main'
+            'display_node = aircraft_tracker.display_node:main',
+            'power_monitor_node = aircraft_tracker.power_monitor_node:main',
         ],
     },
 )
