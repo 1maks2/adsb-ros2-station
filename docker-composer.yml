@@ -1,6 +1,7 @@
 services:
   ros2client:
     container_name: ros2_jazzy_lpa
+    stop_grace_period: 30s
     build: .
     working_dir: /ros2_ws
     stdin_open: true
