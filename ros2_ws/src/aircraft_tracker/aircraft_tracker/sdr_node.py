@@ -6,50 +6,42 @@ from rclpy.node import Node
 from std_msgs.msg import String
 
 
-class SDRRadarNode(Node):
-    def __init__(self):
-        super().__init__('sdr_radar_node')
+class TcpLineClient:
+    """Jedno połączenie TCP z dump1090, które zwraca CAŁE linie tekstu.
 
-        # Publikowanie surowych linii SBS jako String na temat /aircraft/raw
-        self.publisher_ = self.create_publisher(String, '/aircraft/raw', 10)
+    Dane z sieci przychodzą kawałkami - kawałek może się skończyć w połowie linii.
+    Niepełna końcówka czeka w buforze, aż dojdzie reszta.
+    """
 
-        # Kontener działa z network_mode: host, więc "widzi" sieć RPi jak swoją.
-        # dump1090 działa na tym samym RPi -> adres 127.0.0.1 (localhost).
-        self.host = '127.0.0.1'
-        self.port = 30003
+    def __init__(self, node, label, host, port):
+        self.node = node
+        self.label = label      # nazwa do logów, np. "SBS"
+        self.host = host
+        self.port = port
+        self.sock = None
+        self.buffer = b''
+        self.count = 0          # ile linii opublikowano od ostatniej statystyki
 
-        self.sock = None      # gniazdo sieciowe (None = brak połączenia)
-        self.buffer = b''     # niepełna końcówka danych, czekająca na resztę linii
-        self.msg_count = 0    # licznik opublikowanych wiadomości (do statystyk)
-
-        # Co 50 ms: odczyt nowych danych z dump1090
-        self.create_timer(0.05, self.read_radar)
-        # Co 2 s: jeśli nie ma połączenia, spróbuj połączyć się ponownie
-        self.create_timer(2.0, self.ensure_connected)
-        # Co 10 s: krótka statystyka w logach zamiast wpisu na każdy pakiet
-        self.create_timer(10.0, self.report)
-
-        self.ensure_connected()
+    def connected(self):
+        return self.sock is not None
 
     def ensure_connected(self):
         if self.sock is not None:
-            return  # już połączony
+            return
         try:
             s = socket.create_connection((self.host, self.port), timeout=2.0)
-            s.setblocking(False)  # tryb nieblokujący: recv() nie czeka na dane
+            s.setblocking(False)  # recv() nie czeka na dane
             self.sock = s
             self.buffer = b''
-            self.get_logger().info(
-                f"Połączono z dump1090 na {self.host}:{self.port}")
+            self.node.get_logger().info(
+                f"[{self.label}] Połączono z dump1090 na {self.host}:{self.port}")
         except OSError as e:
-            # Np. dump1090 jeszcze nie wystartował - spróbujemy za 2 s.
-            # throttle: ten komunikat pojawi się w logach najwyżej raz na 30 s.
-            self.get_logger().warn(
-                f"Brak połączenia z dump1090 ({e}), ponawiam próby...",
+            self.node.get_logger().warn(
+                f"[{self.label}] Brak połączenia z dump1090 ({e}), ponawiam próby...",
                 throttle_duration_sec=30.0)
 
     def disconnect(self, reason):
-        self.get_logger().warn(f"Rozłączono z dump1090: {reason}")
+        self.node.get_logger().warn(f"[{self.label}] Rozłączono z dump1090: {reason}")
         try:
             self.sock.close()
         except OSError:
@@ -57,47 +49,82 @@ class SDRRadarNode(Node):
         self.sock = None
         self.buffer = b''
 
-    def read_radar(self):
+    def read_lines(self):
+        """Zwraca listę pełnych linii (bez \\r\\n), które przyszły od ostatniego odczytu."""
         if self.sock is None:
-            return
-
+            return []
         try:
             data = self.sock.recv(65536)
         except BlockingIOError:
-            return  # brak nowych danych - normalna sytuacja
+            return []               # brak nowych danych - normalna sytuacja
         except OSError as e:
             self.disconnect(f"błąd odczytu: {e}")
-            return
-
+            return []
         if not data:
-            # Pusty odczyt = druga strona zamknęła połączenie (np. restart dump1090)
             self.disconnect("dump1090 zamknął połączenie")
-            return
+            return []
 
-        # Doklejamy nowe dane do tego, co zostało z poprzedniego odczytu
         self.buffer += data
+        *complete, self.buffer = self.buffer.split(b'\n')
+        if len(self.buffer) > 65536:  # zabezpieczenie przed śmieciami bez końca linii
+            self.buffer = b''
+        return [raw.decode('ascii', errors='ignore').strip() for raw in complete]
 
-        # Dzielimy na linie. Ostatni element to fragment BEZ znaku końca linii
-        # (niepełna linia) - zostaje w buforze i poczeka na resztę.
-        *complete_lines, self.buffer = self.buffer.split(b'\n')
+    def close(self):
+        if self.sock is not None:
+            self.sock.close()
 
-        for raw in complete_lines:
-            line = raw.decode('ascii', errors='ignore').strip()  # strip() usuwa też \r
+
+class SDRRadarNode(Node):
+    def __init__(self):
+        super().__init__('sdr_radar_node')
+
+        # /aircraft/raw    - linie SBS (port 30003): dane już rozkodowane przez dump1090
+        # /aircraft/frames - surowe ramki Mode S/ADS-B w formacie AVR (port 30002),
+        #                    np. "*8D4840D6202CC371C32CE0576098;" - do własnego dekodowania później
+        self.sbs_pub = self.create_publisher(String, '/aircraft/raw', 10)
+        self.frames_pub = self.create_publisher(String, '/aircraft/frames', 10)
+
+        # network_mode: host -> dump1090 na tym samym RPi jest pod 127.0.0.1
+        self.sbs = TcpLineClient(self, 'SBS', '127.0.0.1', 30003)
+        self.frames = TcpLineClient(self, 'RAW', '127.0.0.1', 30002)
+
+        self.create_timer(0.05, self.read_all)        # odczyt danych co 50 ms
+        self.create_timer(2.0, self.ensure_connected)  # ponowne łączenie co 2 s
+        self.create_timer(10.0, self.report)           # statystyka co 10 s
+
+        self.ensure_connected()
+
+    def ensure_connected(self):
+        self.sbs.ensure_connected()
+        self.frames.ensure_connected()
+
+    def read_all(self):
+        for line in self.sbs.read_lines():
             if line.startswith('MSG'):
                 msg = String()
                 msg.data = line
-                self.publisher_.publish(msg)
-                self.msg_count += 1
+                self.sbs_pub.publish(msg)
+                self.sbs.count += 1
 
-        # Zabezpieczenie: gdyby przyszły śmieci bez końca linii, nie rośnij w nieskończoność
-        if len(self.buffer) > 65536:
-            self.buffer = b''
+        for line in self.frames.read_lines():
+            # Poprawna ramka AVR zaczyna się od '*' i kończy ';' - zapisujemy ją bez zmian
+            if line.startswith('*') and line.endswith(';'):
+                msg = String()
+                msg.data = line
+                self.frames_pub.publish(msg)
+                self.frames.count += 1
 
     def report(self):
-        if self.sock is not None:
-            self.get_logger().info(
-                f"Ostatnie 10 s: {self.msg_count} wiadomości MSG")
-        self.msg_count = 0
+        parts = []
+        if self.sbs.connected():
+            parts.append(f"{self.sbs.count} wiadomości MSG")
+        if self.frames.connected():
+            parts.append(f"{self.frames.count} surowych ramek")
+        if parts:
+            self.get_logger().info("Ostatnie 10 s: " + ", ".join(parts))
+        self.sbs.count = 0
+        self.frames.count = 0
 
 
 def main(args=None):
@@ -108,8 +135,8 @@ def main(args=None):
     except KeyboardInterrupt:
         pass
     finally:
-        if node.sock is not None:
-            node.sock.close()
+        node.sbs.close()
+        node.frames.close()
         node.destroy_node()
         rclpy.shutdown()
 

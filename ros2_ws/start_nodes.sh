@@ -22,7 +22,7 @@ mkdir -p /ros2_ws/bags
 ros2 bag record \
     -o /ros2_ws/bags/sesja_$(date -u +%Y%m%d_%H%M%SZ) \
     --max-bag-duration 600 \
-    --topics /aircraft/raw /gps/fix /gps/time_ref /system/undervoltage /system/cpu_temp \
+    --topics /aircraft/raw /aircraft/frames /gps/fix /gps/time_ref /system/undervoltage /system/cpu_temp \
     < /dev/null &
 # "< /dev/null" = rosbag nie czyta klawiatury. Bez tego, przy "set -m",
 # system zatrzymuje (usypia) rosbaga, bo proces w tle próbuje czytać z terminala.
