@@ -28,6 +28,7 @@ setup(
             'gps_node = aircraft_tracker.gps_node:main',
             'display_node = aircraft_tracker.display_node:main',
             'power_monitor_node = aircraft_tracker.power_monitor_node:main',
+            'decoder_node = aircraft_tracker.decoder_node:main',
         ],
     },
 )

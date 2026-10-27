@@ -40,6 +40,9 @@ RUN apt-get update && apt-get install -y \
 RUN pip3 install --break-system-packages pyrtlsdr
 # Instalacja bibliotek do obsługi wyświetlacza TFT
 RUN pip3 install --break-system-packages luma.lcd RPi.GPIO spidev
+# Biblioteka do dekodowania ramek ADS-B (decoder_node). Wersja przypięta na stałe,
+# żeby przebudowa obrazu zawsze dawała ten sam kod.
+RUN pip3 install --break-system-packages "pyModeS==3.6.0"
 # Ustawienie katalogu roboczego
 WORKDIR /ros2_ws
 

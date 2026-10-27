@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import String, Bool
+from std_msgs.msg import Bool
 from sensor_msgs.msg import NavSatFix, Temperature
+from aircraft_interfaces.msg import AircraftState
 import RPi.GPIO as GPIO
 from luma.core.interface.serial import spi
 from luma.lcd.device import ili9341
@@ -16,15 +17,21 @@ AIRCRAFT_TIMEOUT = 60.0   # [s] po tylu sekundach bez wiadomości samolot znika 
 GPS_TIMEOUT = 5.0         # [s] po tylu sekundach bez /gps/fix uznajemy, że nie ma fixa
 SENSOR_TIMEOUT = 5.0      # [s] to samo dla temperatury i alarmu napięcia
 
+M_TO_FT = 1 / 0.3048      # na ekranie zostają jednostki lotnicze: stopy i węzły
+MS_TO_KT = 3600 / 1852.0
 
-def haversine(lat1, lon1, lat2, lon2):
-    R = 6371000.0  # promień Ziemi w metrach
-    phi1 = math.radians(lat1)
-    phi2 = math.radians(lat2)
-    dphi = math.radians(lat2 - lat1)
-    dlambda = math.radians(lon2 - lon1)
-    a = math.sin(dphi/2)**2 + math.cos(phi1)*math.cos(phi2)*math.sin(dlambda/2)**2
-    return 2 * R * math.asin(math.sqrt(a))
+# Kolor ICAO = jakość pozycji (stałe z AircraftState.msg)
+QUALITY_COLOR = {
+    AircraftState.POSITION_VERIFIED: "lime",     # potwierdzona dwiema metodami
+    AircraftState.POSITION_LOCAL: "yellow",      # tylko lokalna (z pozycją stacji)
+    AircraftState.POSITION_GLOBAL: "yellow",     # tylko globalna (z pary ramek)
+    AircraftState.POSITION_NONE: "white",        # brak pozycji
+}
+
+
+def known(x):
+    """Czy liczba jest znana (w AircraftState nieznane = NaN)."""
+    return x is not None and not math.isnan(x)
 
 
 def format_elapsed(seconds):
@@ -43,7 +50,7 @@ class DisplayNode(Node):
         serial = spi(port=0, device=0, gpio_DC=24, gpio_RST=25)
         self.device = ili9341(serial, width=320, height=240)
 
-        self.aircraft = {}
+        self.aircraft = {}           # ICAO -> (ostatni AircraftState, czas odebrania)
         self.gps = None
         self.gps_time = 0.0          # kiedy przyszła ostatnia pozycja GPS
 
@@ -55,7 +62,8 @@ class DisplayNode(Node):
         self.start_time = time.monotonic()  # początek sesji (licznik czasu pracy)
         self.blink = False                  # do migania kropki REC
 
-        self.create_subscription(String, '/aircraft/raw', self.msg_callback, 10)
+        # Gotowe, zdekodowane dane z decoder_node - ekran niczego już nie dekoduje
+        self.create_subscription(AircraftState, '/aircraft/state', self.state_callback, 50)
         self.create_subscription(NavSatFix, '/gps/fix', self.gps_callback, 10)
         self.create_subscription(Temperature, '/system/cpu_temp', self.temp_callback, 10)
         self.create_subscription(Bool, '/system/undervoltage', self.uv_callback, 10)
@@ -76,37 +84,8 @@ class DisplayNode(Node):
         self.undervoltage = msg.data
         self.uv_time = time.monotonic()
 
-    def msg_callback(self, msg):
-        parts = msg.data.split(',')
-        if len(parts) < 11:
-            return
-
-        icao = parts[4].strip()
-        if not icao:
-            return
-
-        if icao not in self.aircraft:
-            self.aircraft[icao] = {
-                'callsign': '',
-                'altitude': '',
-                'speed': '',
-                'lat': None,
-                'lon': None,
-                'last_seen': time.time()
-            }
-
-        if len(parts) > 10 and parts[10].strip(): self.aircraft[icao]['callsign'] = parts[10].strip()
-        if len(parts) > 11 and parts[11].strip(): self.aircraft[icao]['altitude'] = parts[11].strip()
-        if len(parts) > 12 and parts[12].strip(): self.aircraft[icao]['speed']    = parts[12].strip()
-
-        if len(parts) > 15 and parts[14].strip() and parts[15].strip():
-            try:
-                self.aircraft[icao]['lat'] = float(parts[14].strip())
-                self.aircraft[icao]['lon'] = float(parts[15].strip())
-            except ValueError:
-                pass
-
-        self.aircraft[icao]['last_seen'] = time.time()
+    def state_callback(self, msg):
+        self.aircraft[msg.icao] = (msg, time.monotonic())
 
     def recorder_running(self):
         """Sprawdza, czy w systemie ROS działa node rejestratora rosbag2."""
@@ -117,9 +96,8 @@ class DisplayNode(Node):
 
         # Usuwanie starych samolotów - teraz co sekundę, a nie tylko przy nowej wiadomości
         # (wcześniej, gdy nie było ruchu, stare samoloty wisiały na ekranie)
-        now = time.time()
         self.aircraft = {k: v for k, v in self.aircraft.items()
-                         if now - v['last_seen'] < AIRCRAFT_TIMEOUT}
+                         if now_mono - v[1] < AIRCRAFT_TIMEOUT}
 
         # GPS uznajemy za aktualny tylko, jeśli pozycja przyszła niedawno
         gps_ok = self.gps is not None and (now_mono - self.gps_time) < GPS_TIMEOUT
@@ -159,41 +137,35 @@ class DisplayNode(Node):
             draw.text((245, 22), "SPD",   fill="white", anchor="ra")
             draw.text((315, 22), "DIST",  fill="white", anchor="ra")
 
-            # Najpierw liczymy odległość i "kompletność" każdego samolotu,
+            # Najpierw zbieramy dane każdego samolotu i jego "kompletność",
             # potem sortujemy i pokazujemy 9 pierwszych.
+            # Odległość liczy decoder_node (slant_distance = w linii prostej, 3D).
             rows = []
-            for icao, data in self.aircraft.items():
-                dist_km = None
-                if gps_ok and data['lat'] is not None and data['lon'] is not None:
-                    my_lat, my_lon, my_alt = self.gps[0], self.gps[1], self.gps[2]
-                    ground_m = haversine(my_lat, my_lon, data['lat'], data['lon'])
-                    try:
-                        ac_alt_m = float(data['altitude']) * 0.3048
-                    except (ValueError, TypeError):
-                        ac_alt_m = my_alt
-                    dalt = ac_alt_m - my_alt
-                    dist_km = math.sqrt(ground_m**2 + dalt**2) / 1000.0
-
+            for icao, (m, seen) in self.aircraft.items():
+                has_pos = m.position_quality != AircraftState.POSITION_NONE
+                dist_km = m.slant_distance / 1000.0 if known(m.slant_distance) else None
                 # Ile z 4 informacji znamy: znak wywoławczy, wysokość, prędkość, pozycja
-                filled = (bool(data['callsign']) + bool(data['altitude'])
-                          + bool(data['speed']) + (data['lat'] is not None))
-                rows.append((icao, data, dist_km, filled))
+                filled = (bool(m.callsign) + known(m.altitude_baro)
+                          + known(m.ground_speed) + has_pos)
+                rows.append((icao, m, seen, dist_km, filled))
 
             # Kolejność: najpierw najwięcej wypełnionych pól; przy remisie bliższe wyżej
             # (bez odległości = na końcu remisu); potem te, od których wiadomość przyszła najświeżej.
-            rows.sort(key=lambda r: (-r[3],
-                                     r[2] if r[2] is not None else float('inf'),
-                                     -r[1]['last_seen']))
+            rows.sort(key=lambda r: (-r[4],
+                                     r[3] if r[3] is not None else float('inf'),
+                                     -r[2]))
 
             y = 38
-            for icao, data, dist_km, filled in rows[:9]:
+            for icao, m, seen, dist_km, filled in rows[:9]:
+                alt_str = f"{m.altitude_baro * M_TO_FT:.0f}" if known(m.altitude_baro) else "---"
+                spd_str = f"{m.ground_speed * MS_TO_KT:.0f}" if known(m.ground_speed) else "---"
                 dist_str = f"{dist_km:.1f}km" if dist_km is not None else "---"
 
-                draw.text((5, y),   icao[:6],                      fill="lime")
-                draw.text((70, y),  data['callsign'][:6] or '---', fill="white")
-                draw.text((175, y), data['altitude'][:5] or '---', fill="cyan",    anchor="ra")
-                draw.text((245, y), data['speed'][:4] or '---',    fill="orange",  anchor="ra")
-                draw.text((315, y), dist_str,                      fill="magenta", anchor="ra")
+                draw.text((5, y),   icao[:6],                fill=QUALITY_COLOR.get(m.position_quality, "white"))
+                draw.text((70, y),  m.callsign[:7] or '---', fill="white")
+                draw.text((175, y), alt_str[:5],             fill="cyan",    anchor="ra")
+                draw.text((245, y), spd_str[:4],             fill="orange",  anchor="ra")
+                draw.text((315, y), dist_str,                fill="magenta", anchor="ra")
                 y += 20
 
             # --- Pasek dolny: ostrzeżenie o zasilaniu albo pozycja GPS ---

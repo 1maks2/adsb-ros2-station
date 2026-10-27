@@ -1,7 +1,9 @@
 #!/bin/bash
 source /opt/ros/jazzy/setup.bash
 cd /ros2_ws
-colcon build --packages-select aircraft_tracker
+# --packages-up-to = zbuduj aircraft_tracker i wszystko, od czego zależy
+# (czyli najpierw aircraft_interfaces z wiadomością AircraftState)
+colcon build --packages-up-to aircraft_tracker
 source /ros2_ws/install/setup.bash
 
 # Kontrola zadań: każdy program uruchomiony z "&" dostaje własną grupę procesów.
@@ -13,6 +15,7 @@ ros2 run aircraft_tracker sdr_node &
 ros2 run aircraft_tracker display_node &
 ros2 run aircraft_tracker gps_node &
 ros2 run aircraft_tracker power_monitor_node &
+ros2 run aircraft_tracker decoder_node &
 
 # --- Nagrywanie do rosbaga ---
 # Nazwa folderu: data i godzina startu w UTC (litera Z = UTC, standard w lotnictwie).
@@ -22,7 +25,7 @@ mkdir -p /ros2_ws/bags
 ros2 bag record \
     -o /ros2_ws/bags/sesja_$(date -u +%Y%m%d_%H%M%SZ) \
     --max-bag-duration 600 \
-    --topics /aircraft/raw /aircraft/frames /gps/fix /gps/time_ref /system/undervoltage /system/cpu_temp \
+    --topics /aircraft/raw /aircraft/frames /aircraft/state /gps/fix /gps/time_ref /system/undervoltage /system/cpu_temp \
     < /dev/null &
 # "< /dev/null" = rosbag nie czyta klawiatury. Bez tego, przy "set -m",
 # system zatrzymuje (usypia) rosbaga, bo proces w tle próbuje czytać z terminala.
