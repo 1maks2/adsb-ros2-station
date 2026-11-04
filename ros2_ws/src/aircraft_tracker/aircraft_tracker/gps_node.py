@@ -1,8 +1,30 @@
 import rclpy
 from rclpy.node import Node
+from rclpy.executors import ExternalShutdownException
 from sensor_msgs.msg import NavSatFix, NavSatStatus, TimeReference
 import serial
 from datetime import datetime, timezone
+
+
+def nmea_checksum_ok(line):
+    """Sprawdza sumę kontrolną zdania NMEA, np. '$GPGGA,...,*5A'.
+
+    Suma = XOR kodów wszystkich znaków między '$' a '*',
+    zapisany na końcu zdania jako dwie cyfry szesnastkowe.
+    """
+    if not line.startswith('$'):
+        return False
+    body, star, checksum = line[1:].partition('*')
+    if not star or len(checksum) != 2:
+        return False
+    res = 0
+    for ch in body:
+        res ^= ord(ch)
+    try:
+        return res == int(checksum, 16)
+    except ValueError:      # po '*' nie ma liczby szesnastkowej
+        return False
+
 
 class GPSNode(Node):
     def __init__(self):
@@ -14,6 +36,7 @@ class GPSNode(Node):
         # Konfiguracja portu szeregowego
         self.port = '/dev/ttyAMA0'
         self.baudrate = 9600
+        self.bad_checksums = 0   # ile zdań odrzucono przez złą sumę kontrolną
         
         try:
             self.serial_port = serial.Serial(self.port, self.baudrate, timeout=1)
@@ -50,32 +73,25 @@ class GPSNode(Node):
         return None
     
     def parse_nmea_rmc(self, line):
+        # Suma kontrolna jest już sprawdzona w read_gps()
         try:
             parts = line.split(',')
-            if line.startswith('$'):
-                line = line[1:] 
-                body, star, checksum = line.partition('*')
-                res = 0
-                if star and len(checksum) == 2:
-                    for ch in body: 
-                        res ^= ord(ch)
+            # Pole 2: A = dane ważne, V = nieważne; pole 1 = godzina, pole 9 = data
+            if len(parts) >= 10 and parts[2] == 'A' and parts[1] and parts[9]:
+                date = str(parts[9])
+                dd, mo, yy = int(date[0:2]), int(date[2:4]), 2000 + int(date[4:6])
+                time = str(parts[1])
+                hh, mm, ss = int(time[0:2]), int(time[2:4]), float(time[4:])
 
-                    if res == int(checksum, 16) and len(parts) >= 10 and parts[2] == 'A' and parts[1] and parts[9]:
-                        date = str(parts[9])
-                        dd, mo, yy = int(date[0:2]), int(date[2:4]), 2000 + int(date[4:6])   
-                        time = str(parts[1])
-                        hh, mm, ss = int(time[0:2]), int(time[2:4]), float(time[4:])
-                        
-                        dt = datetime(yy, mo, dd, hh, mm, int(ss), round((ss % 1) * 1e6), tzinfo=timezone.utc)
-                        unix_time = dt.timestamp()          # np. 1792156390.25
-                        sec = int(unix_time)
-                        nanosec = int(round((unix_time - sec) * 1e9))
-                        return sec, nanosec
+                dt = datetime(yy, mo, dd, hh, mm, int(ss), round((ss % 1) * 1e6), tzinfo=timezone.utc)
+                unix_time = dt.timestamp()          # np. 1792156390.25
+                sec = int(unix_time)
+                nanosec = int(round((unix_time - sec) * 1e9))
+                return sec, nanosec
         except Exception:
             pass
         return None
-                  
-        
+
     def read_gps(self):
         if not hasattr(self, 'serial_port'):
             return
@@ -83,6 +99,17 @@ class GPSNode(Node):
             while self.serial_port.in_waiting > 0:
                 line = self.serial_port.readline().decode('ascii', errors='ignore').strip()
                 stamp_system = self.get_clock().now().to_msg()   # czas Pi zaraz po odczycie
+
+                if not line.startswith(('$GPGGA', '$GNGGA', '$GPRMC', '$GNRMC')):
+                    continue   # inne zdania NMEA nas nie interesują
+
+                # Zdanie uszkodzone w transmisji (np. zakłócenie na kablu) - odrzucamy
+                if not nmea_checksum_ok(line):
+                    self.bad_checksums += 1
+                    self.get_logger().warn(
+                        f"Zła suma kontrolna NMEA (łącznie odrzucono: {self.bad_checksums}): {line}",
+                        throttle_duration_sec=60.0)
+                    continue
 
                 if line.startswith(('$GPGGA', '$GNGGA')):
                     coords = self.parse_nmea_gga(line)
@@ -114,12 +141,15 @@ def main(args=None):
     node = GPSNode()
     try:
         rclpy.spin(node)
-    except KeyboardInterrupt:
-        pass
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass   # normalne zakończenie (Ctrl+C albo SIGINT ze start_nodes.sh)
     finally:
         if hasattr(node, 'serial_port'): node.serial_port.close()
         node.destroy_node()
-        rclpy.shutdown()
+        # Jazzy przy SIGINT sam zamyka ROS - drugie wywołanie shutdown()
+        # dawało błąd "rcl_shutdown already called". Zamykamy tylko, jeśli trzeba.
+        if rclpy.ok():
+            rclpy.shutdown()
 
 if __name__ == '__main__':
     main()

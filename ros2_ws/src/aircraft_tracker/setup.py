@@ -4,7 +4,7 @@ package_name = 'aircraft_tracker'
 
 setup(
     name=package_name,
-    version='0.0.0',
+    version='0.1.0',
     packages=find_packages(exclude=['test']),
     data_files=[
         ('share/ament_index/resource_index/packages',
@@ -13,10 +13,10 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='root',
-    maintainer_email='root@todo.todo',
-    description='TODO: Package description',
-    license='Apache-2.0',
+    maintainer='Maks',
+    maintainer_email='maksstach11@gmail.com',
+    description='Węzły ROS 2 przenośnej stacji ADS-B',
+    license='MIT',
     extras_require={
         'test': [
             'pytest',

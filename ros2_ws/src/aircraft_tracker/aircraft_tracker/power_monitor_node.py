@@ -4,6 +4,7 @@ import os
 
 import rclpy
 from rclpy.node import Node
+from rclpy.executors import ExternalShutdownException
 from std_msgs.msg import Bool
 from sensor_msgs.msg import Temperature
 
@@ -91,11 +92,14 @@ def main(args=None):
     node = PowerMonitorNode()
     try:
         rclpy.spin(node)
-    except KeyboardInterrupt:
-        pass
+    except (KeyboardInterrupt, ExternalShutdownException):
+        pass   # normalne zakończenie (Ctrl+C albo SIGINT ze start_nodes.sh)
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        # Jazzy przy SIGINT sam zamyka ROS - drugie wywołanie shutdown()
+        # dawało błąd "rcl_shutdown already called". Zamykamy tylko, jeśli trzeba.
+        if rclpy.ok():
+            rclpy.shutdown()
 
 
 if __name__ == '__main__':

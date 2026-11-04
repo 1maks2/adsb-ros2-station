@@ -4,7 +4,7 @@
   <name>aircraft_interfaces</name>
   <version>0.1.0</version>
   <description>Definicje wiadomości ROS 2 dla stacji ADS-B (AircraftState)</description>
-  <maintainer email="root@todo.todo">maks</maintainer>
+  <maintainer email="maksstach11@gmail.com">Maks</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
