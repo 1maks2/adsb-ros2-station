@@ -7,6 +7,7 @@ snap-core22-2412.mount                         enabled enabled
 snap-core24-1644.mount                         enabled enabled
 snap-core24-2125.mount                         enabled enabled
 snap-core26-649.mount                          enabled enabled
+snap-core26-751.mount                          enabled enabled
 snap-cups-1184.mount                           enabled enabled
 snap-cups-1264.mount                           enabled enabled
 snap-firefox-7764.mount                        enabled enabled
@@ -132,4 +133,4 @@ ua-timer.timer                                 enabled enabled
 update-notifier-download.timer                 enabled enabled
 update-notifier-motd.timer                     enabled enabled
 
-132 unit files listed.
+133 unit files listed.

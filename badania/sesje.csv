@@ -1,0 +1,5 @@
+id,folder,data_utc,czas_trwania_h,opis,miejsce,antena,obudowa,wentylator,pogoda,bateria_start_proc,ntp,commit,uwagi
+R-01,sesja_20261019_182318Z,2026-10-19,3.67,wieczór biurko,pomieszczenie,dipol pionowy przy oknie,nie,nie,-,35,tak,955d627,tylko SBS+GPS+system; odcięcie zasilania (T6.2)
+R-02,,,,dzień balkon,balkon (opis bez współrzędnych),dipol na zewnątrz,tak,tak,,,nie,,
+R-03,,,,wieczór balkon,balkon,dipol na zewnątrz,tak,tak,,,nie,,
+R-04,,,,bateria 100 %,,,tak,tak,,100,nie,,T6.1 do odcięcia

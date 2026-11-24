@@ -12,7 +12,13 @@ uint8 ALTITUDE_UNKNOWN=0
 uint8 ALTITUDE_BARO=1       # barometryczna (wzgledem cisnienia standardowego 1013,25 hPa)
 uint8 ALTITUDE_GEOMETRIC=2  # geometryczna (z GNSS samolotu)
 
-std_msgs/Header header      # stamp = czas odebrania ostatniej ramki (zegar RPi)
+# --- Stale: zrodlo znacznikow czasu ---
+uint8 TIME_SYSTEM=0         # zegar RPi bez korekty (brak jeszcze czasu z GPS)
+uint8 TIME_GPS=1            # zegar RPi poprawiony o przesuniecie wyznaczone z GPS (UTC)
+
+std_msgs/Header header      # stamp = czas odebrania ostatniej ramki (zrodlo w time_source)
+uint8 time_source           # jedna ze stalych TIME_* (dotyczy header.stamp i position_stamp)
+float64 clock_offset        # [s] przesuniecie dodane do zegara RPi (GPS - RPi); NaN = brak
 
 string icao                 # adres ICAO transpondera, np. "4D22BF"
 string callsign             # znak wywolawczy (pusty, jesli jeszcze nieznany)
