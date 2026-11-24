@@ -66,12 +66,15 @@ def station_from_fix(fixes):
 # =========================================================================== #
 # 2. Czas (W9, ustalenie F1)
 # =========================================================================== #
-def time_analysis(tref, window_min=10.0, step_s=0.5):
-    """Przesunięcie zegara RPi względem GPS: seria delta_k, estymata, skoki."""
+def time_analysis(tref, window_min=10.0, step_s=0.5, gps_delay=0.150):
+    """Przesunięcie zegara RPi względem GPS: seria delta_k, estymata, skoki.
+
+    delta_k = time_ref - stamp + gps_delay (tak samo jak clock_offset.py w decoder_node).
+    """
     if not tref:
         return {'dostepny': False}
     t = [r['t_log'] for r in tref]
-    delta = [r['time_ref'] - r['stamp'] for r in tref]
+    delta = [r['time_ref'] - r['stamp'] + gps_delay for r in tref]
     # skoki: odchylenie od mediany ostatnich 15 próbek, potwierdzone 3 próbkami
     steps, hist, pend = [], [], []
     for ti, d in zip(t, delta):
@@ -241,7 +244,8 @@ def compute(d, args):
     res['stacja_alt_m'] = st[2] if st else math.nan
 
     # W9: czas
-    tm = time_analysis(d['czas_gps'], args.okno_czasu)
+    tm = time_analysis(d['czas_gps'], args.okno_czasu, gps_delay=args.gps_delay)
+    res['gps_delay_s'] = args.gps_delay
     res['czas'] = {k: v for k, v in tm.items() if k not in ('t', 'delta')}
     live = [r for r in d['stan'] if r['time_source'] == 1]
     res['stan_z_czasem_gps_proc'] = 100 * len(live) / len(d['stan']) if d['stan'] else math.nan
@@ -273,7 +277,9 @@ def compute(d, args):
     res['dekoder_statystyki'] = dstats
     npoz = len(dec_pos)
     nver = sum(p['jakosc'] == Q_VER for p in dec_pos)
-    nodrz = sum(dstats.get(k, 0) for k in ('niezgodne', 'skoki', 'poza_zasiegiem'))
+    # od 2026-11-24 niezgodność metod nie odrzuca pozycji (wygrywa globalna)
+    nodrz = sum(dstats.get(k, 0) for k in ('skoki', 'poza_zasiegiem'))
+    res['W2_niezgodne'] = dstats.get('niezgodne', 0)
     res['W2_pozycje'] = npoz
     res['W2_eta_V_proc'] = 100 * nver / npoz if npoz else math.nan
     res['W2_eta_R_proc'] = 100 * nodrz / (npoz + nodrz) if npoz + nodrz else math.nan
@@ -350,6 +356,7 @@ def write_tables(out, res):
         (r'Pokrycie $\kappa$ dekoder / dump1090 [\%]',
          f"{fmt(res['W4_kappa_dek_proc'], 1)} / {fmt(res['W4_kappa_sbs_proc'], 1)}"),
         ('Pozycje (odtworzenie)', str(res['W2_pozycje'])),
+        ('Niezgodności metod (użyto globalnej)', str(res['W2_niezgodne'])),
         (r'$\eta_V$ / $\eta_R$ [\%]', f"{fmt(res['W2_eta_V_proc'], 1)} / {fmt(res['W2_eta_R_proc'], 2)}"),
         ('Mediana T do 1. pozycji: LOCAL / VERIFIED / dump1090 [s]',
          f"{fmt(res['W3_T1_local_s_mediana'], 2)} / {fmt(res['W3_T1_verified_s_mediana'], 1)} / "
@@ -595,6 +602,8 @@ def main():
     ap.add_argument('--koniec', help='chwila odcięcia zasilania "RRRR-MM-DD GG:MM:SS" '
                     '(z journalctl --list-boots, czas lokalny)')
     ap.add_argument('--strefa', default='Europe/Warsaw')
+    ap.add_argument('--gps-delay', type=float, default=0.150,
+                    help='opóźnienie zdania RMC [s], jak parametr gps_delay decoder_node')
     ap.add_argument('--odswiez', action='store_true', help='ponownie czytaj MCAP')
     a = ap.parse_args()
     a.id = a.id or os.path.basename(os.path.normpath(a.sesja))

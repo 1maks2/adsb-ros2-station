@@ -13,6 +13,7 @@ def _ids(rows):
 
 @pytest.mark.parametrize('case', [
     cases.case_clean_flight, cases.case_bit_errors, cases.case_wrong_station,
+    cases.case_wrong_station_400, cases.case_far_aircraft,
     cases.case_range_limit, cases.case_jump_limit, cases.case_nl_crossing,
     cases.case_geometry,
 ], ids=lambda f: f.__name__)

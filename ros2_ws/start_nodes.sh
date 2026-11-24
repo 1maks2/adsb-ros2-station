@@ -15,7 +15,9 @@ ros2 run aircraft_tracker sdr_node &
 ros2 run aircraft_tracker display_node &
 ros2 run aircraft_tracker gps_node &
 ros2 run aircraft_tracker power_monitor_node &
-ros2 run aircraft_tracker decoder_node &
+# gps_delay = opóźnienie zdania RMC względem pełnej sekundy GPS + odczyt portu,
+# zmierzone 2026-11-24 przy zegarze RPi zsynchronizowanym przez NTP: 0,150 s.
+ros2 run aircraft_tracker decoder_node --ros-args -p gps_delay:=0.150 &
 
 # --- Nagrywanie do rosbaga ---
 # Nazwa folderu: data i godzina startu w UTC (litera Z = UTC, standard w lotnictwie).

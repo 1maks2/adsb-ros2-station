@@ -12,6 +12,10 @@ Pozycja samolotu jest wyznaczana dwiema niezależnymi metodami:
      bez żadnej wiedzy o stacji. PipeDecoder wypuszcza pozycję dopiero
      po zebraniu kilku wzajemnie zgodnych wyników (ochrona przed błędami).
 Jeśli obie metody dają ten sam wynik -> pozycja POTWIERDZONA.
+Jeśli dają różne wyniki, wygrywa metoda globalna: PipeDecoder wypuszcza
+pozycję dopiero po kilku zgodnych parach ramek, a dekodowanie lokalne
+z pozycją stacji jest jednoznaczne tylko do ok. 180 NM (333 km) - dalej
+wybiera złą strefę CPR (wynik badania T1.5).
 """
 import math
 
@@ -221,13 +225,18 @@ class AdsbDecoder:
         if g.get('latitude') is not None and g.get('longitude') is not None:
             glob = (g['latitude'], g['longitude'])
 
+        override = False   # True = pozycja może zastąpić poprzednią mimo "skoku"
         if local and glob:
             if ground_distance_m(*local, *glob) <= AGREE_TOLERANCE_M:
                 pos, quality = local, POSITION_VERIFIED
             else:
-                # Metody się nie zgadzają - nie ufamy żadnej z nich
+                # Metody się nie zgadzają. Wynik lokalny jest wtedy prawie na pewno
+                # z niewłaściwej strefy CPR (statek dalej niż ~333 km od stacji albo
+                # błędna pozycja stacji). Globalny pochodzi z kilku zgodnych par
+                # ramek, więc to on wygrywa - także nad wcześniejszą (błędną)
+                # pozycją LOCAL, stąd pominięcie kontroli skoku.
                 self.stats['niezgodne'] += 1
-                return
+                pos, quality, override = glob, POSITION_GLOBAL, True
         elif local:
             pos, quality = local, POSITION_LOCAL
         elif glob:
@@ -239,6 +248,11 @@ class AdsbDecoder:
         if self.station is not None:
             if ground_distance_m(self.station[0], self.station[1], *pos) > MAX_RANGE_M:
                 self.stats['poza_zasiegiem'] += 1
+                if override:
+                    # Metody się nie zgadzają, a globalna jest poza zasięgiem (np. błędna
+                    # pozycja stacji): żadnej pozycji nie można ufać - unieważniamy starą.
+                    ac['lat'] = ac['lon'] = NAN
+                    ac['position_quality'] = POSITION_NONE
                 return
 
         # Kontrola skoku: czy samolot mógł tak szybko przelecieć od poprzedniej pozycji?
@@ -247,9 +261,9 @@ class AdsbDecoder:
             jump = ground_distance_m(ac['lat'], ac['lon'], *pos)
             if jump > MAX_SPEED_MS * dt + JUMP_MARGIN_M:
                 self.stats['skoki'] += 1
-                # Pozycja potwierdzona obiema metodami wygrywa ze starą
-                # (stara mogła być błędna); inne odrzucamy.
-                if quality != POSITION_VERIFIED:
+                # Pozycja potwierdzona obiema metodami (albo globalna po
+                # niezgodności metod) wygrywa ze starą - stara mogła być błędna.
+                if quality != POSITION_VERIFIED and not override:
                     return
 
         ac['lat'], ac['lon'] = pos

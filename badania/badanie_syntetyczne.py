@@ -172,12 +172,13 @@ def study_local_range(dists_km=(100, 200, 300, 320, 330, 340, 350, 360, 380, 400
             d.set_station(*ST)
             icao = f'{f.icao:06X}'
             n_local = n_local_bad = n_ver = 0
-            first_local_err = math.nan
+            first_local_err = last_err = math.nan
             for t, frame, kind, truth in ev:
                 d.process('*' + frame + ';', t)
                 ac = d.aircraft.get(icao)
                 if ac and truth and ac['position_time'] == t:
                     e = dec.ground_distance_m(ac['lat'], ac['lon'], truth[0], truth[1])
+                    last_err = e
                     if ac['position_quality'] == dec.POSITION_LOCAL:
                         n_local += 1
                         n_local_bad += e > 1000
@@ -190,6 +191,7 @@ def study_local_range(dists_km=(100, 200, 300, 320, 330, 340, 350, 360, 380, 400
                         'local_bledne': n_local_bad, 'verified': n_ver,
                         'niezgodne': d.stats['niezgodne'],
                         'blad_1_local_km': first_local_err / 1000.0,
+                        'blad_koncowy_m': last_err,
                         'jakosc_koncowa': common.JAKOSC_NAZWY.get(
                             ac.get('position_quality', 0), '?')})
     return out
@@ -310,10 +312,10 @@ def make_tables(out, loss_summary, ber, station, local_range, case_rows):
     common.write_latex_table(
         os.path.join(T, 'tab_syn_zasieg.tex'),
         ['Kierunek', 'Odległość [km]', 'LOCAL', 'Błędne LOCAL', 'VERIFIED', 'Niezgodne',
-         'Jakość końcowa'],
+         'Jakość końcowa', r'$e_{\mathrm{kon}}$ [m]'],
         [['N' if r['kierunek_deg'] == 0 else 'E', fmt(r['odleglosc_km'], 0), str(r['local']),
           str(r['local_bledne']), str(r['verified']), str(r['niezgodne']),
-          r['jakosc_koncowa']] for r in local_range],
+          r['jakosc_koncowa'], fmt(r['blad_koncowy_m'], 1)] for r in local_range],
         'Poprawność dekodowania lokalnego w~funkcji odległości od stacji', 'tab:syn_zasieg')
     common.write_latex_table(
         os.path.join(T, 'tab_przypadki.tex'),

@@ -24,7 +24,8 @@ i parametrem use_sim_time:=true węzeł używa oryginalnego czasu nagrania
 
 Parametry:
   use_gps_time (bool, domyślnie true)  - czy poprawiać czas na podstawie GPS
-  gps_delay    (float [s], domyślnie 0.0) - opóźnienie odczytu zdania NMEA
+  gps_delay    (float [s], domyślnie 0.0) - opóźnienie odczytu zdania NMEA;
+               ustawiane w start_nodes.sh (zmierzone 2026-11-24 przy NTP: 0,150 s)
 """
 import math
 
@@ -94,7 +95,8 @@ class DecoderNode(Node):
                     "(prawdopodobnie brak internetu/NTP) - korekta jest konieczna.")
         if jumped:
             self.get_logger().warn(
-                f"Zegar RPi został przestawiony (np. przez NTP) - "
+                f"Skok czasu GPS względem zegara RPi (moduł GPS poprawił czas UTC "
+                f"albo zegar RPi przestawiono, np. przez NTP) - "
                 f"nowe przesunięcie: {off:+.3f} s.")
         self.gps_time_warned = False
 
@@ -172,11 +174,14 @@ class DecoderNode(Node):
             f"Ostatnie 10 s: {st['ramki']} ramek ({st['adsb']} ADS-B, {st['bledne']} błędnych), "
             f"{st['pozycje']} pozycji ({st['potwierdzone']} potwierdzonych). "
             f"Samoloty: {len(self.decoder.aircraft)}, z pozycją: {with_pos}. {czas}.")
-        problems = st['niezgodne'] + st['skoki'] + st['poza_zasiegiem']
-        if problems:
+        if st['niezgodne']:
             self.get_logger().warn(
-                f"Odrzucone pozycje: {st['niezgodne']} niezgodnych metod, "
-                f"{st['skoki']} skoków, {st['poza_zasiegiem']} poza zasięgiem.")
+                f"Niezgodność metod (lokalna z pozycją stacji vs globalna): "
+                f"{st['niezgodne']} razy - użyto pozycji globalnej.")
+        if st['skoki'] + st['poza_zasiegiem']:
+            self.get_logger().warn(
+                f"Odrzucone pozycje: {st['skoki']} skoków, "
+                f"{st['poza_zasiegiem']} poza zasięgiem.")
 
         # Ostrzeżenie, gdy dawno nie było czasu z GPS (np. utrata sygnału)
         if self.use_gps_time and not self.gps_time_warned:

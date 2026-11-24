@@ -62,6 +62,10 @@ def run_flight(flight, duration, station=ST, seed=1, loss=0.0, ber=0.0):
     for k, v in d.stats.items():
         stats_total[k] += v
     out['stats'] = stats_total
+    ac = d.aircraft.get(icao)
+    out['final_quality'] = ac['position_quality'] if ac else 0
+    out['final_err'] = (dec.ground_distance_m(ac['lat'], ac['lon'], ev[-1][3][0], ev[-1][3][1])
+                        if ac and ac['position_quality'] and ev[-1][3] else float('nan'))
     out['first_pos_frame_t'] = next((e[0] for e in ev if e[2].startswith('pos')), None)
     return out
 
@@ -104,10 +108,36 @@ def case_wrong_station(shift_km=500):
     r = run_flight(f, 180, station=wrong)
     nv = sum(1 for q in r['qualities'] if q == dec.POSITION_VERIFIED)
     ok = r['stats']['niezgodne'] > 0 and nv == 0
+    qf, ef = r['final_quality'], r['final_err']
+    if shift_km > 450:     # globalna poza filtrem zasięgu względem złej stacji
+        exp, ok2 = 'brak pozycji (NONE)', qf == dec.POSITION_NONE
+    else:
+        exp, ok2 = 'GLOBAL, błąd ≤ 10 m', qf == dec.POSITION_GLOBAL and ef <= 10
     return [row('T1.4', f'stacja przesunięta o {shift_km} km',
                 'wykrycie niezgodności metod, brak VERIFIED',
                 'niezgodne > 0, VERIFIED = 0',
-                f'niezgodne = {r["stats"]["niezgodne"]}, VERIFIED = {nv}', ok)]
+                f'niezgodne = {r["stats"]["niezgodne"]}, VERIFIED = {nv}', ok),
+            row('T1.4b', f'stacja przesunięta o {shift_km} km',
+                'pozycja na końcu lotu', exp,
+                f'{common.JAKOSC_NAZWY[qf]}' + ('' if common.isnan(ef) else f', {fmt(ef, 1)} m'),
+                ok2)]
+
+
+def case_wrong_station_400():
+    return case_wrong_station(400)
+
+
+# --- T1.5 statek poza zasięgiem jednoznacznego dekodowania lokalnego -------- #
+def case_far_aircraft(dist_km=360):
+    lat, lon = common.destination(ST[0], ST[1], 0.0, dist_km * 1000)
+    f = cpr_gen.Flight(0x4CA127, 'TST127', lat, lon, 11000, 230, 90, 0, 0)
+    r = run_flight(f, 120)
+    q_end, e_end = r['final_quality'], r['final_err']
+    return [row('T1.5c', f'statek {dist_km} km od stacji (poza 180 NM)',
+                'pozycja po rozruchu metody globalnej',
+                'GLOBAL, błąd ≤ 10 m (zła pozycja LOCAL zastąpiona)',
+                f'{common.JAKOSC_NAZWY[q_end]}, {fmt(e_end, 1)} m',
+                q_end == dec.POSITION_GLOBAL and e_end <= 10)]
 
 
 # --- Atrapy pyModeS do testów strukturalnych (T1.5, T1.6) ------------------ #
@@ -329,7 +359,9 @@ def case_clock():
     return rows
 
 
-ALL_CASES = [case_clean_flight, case_bit_errors, case_wrong_station, case_range_limit,
+ALL_CASES = [case_clean_flight, case_bit_errors, case_wrong_station, case_wrong_station_400,
+             case_far_aircraft,
+             case_range_limit,
              case_jump_limit, case_nl_crossing, case_geometry, case_nmea, case_clock]
 
 

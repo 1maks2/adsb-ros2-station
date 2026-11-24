@@ -125,12 +125,15 @@ python badanie_syntetyczne.py                  # pełne badanie, ok. 15 s
 - Czas do pierwszej pozycji LOCAL jest prawie zerowy. Czas do VERIFIED rośnie z utratą ramek (ok. 2,6 s → 6,8 s),
   bo dekodowanie globalne potrzebuje par ramek parzysta/nieparzysta.
 - **T1.5 – ważne ustalenie:** dekodowanie lokalne z pozycją stacji jest poprawne do ok.
-  **330 km** (kierunek N) / **340 km** (E), zgodnie z granicą 180 NM. Dalej każda pozycja
-  LOCAL jest błędna o ok. 700 km (zła strefa CPR). Ponieważ metoda globalna daje inny wynik,
-  dekoder odrzuca kolejne pozycje jako „niezgodne”, a statek **zostaje z błędną pozycją
-  LOCAL i nigdy nie osiąga VERIFIED**. Filtr 450 km tego nie wyłapie, bo błędna pozycja
-  leży bliżej stacji. Wniosek do pracy: jako dane referencyjne używać **wyłącznie VERIFIED**.
-  Możliwa poprawka kodu: przy niezgodności zaufać metodzie globalnej po jej rozruchu.
+  **330 km** (kierunek N) / **340 km** (E), zgodnie z granicą 180 NM. Dalej pierwsze pozycje
+  LOCAL są błędne o ok. 700 km (zła strefa CPR). **Poprawka z 2026-11-24:** przy niezgodności
+  metod wygrywa metoda globalna (PipeDecoder wypuszcza ją dopiero po kilku zgodnych parach
+  ramek), więc po kilku sekundach statek dostaje poprawną pozycję **GLOBAL** (błąd ok. 3 m,
+  kolumna $e_{\mathrm{kon}}$ w `tab_syn_zasieg.tex`). Gdy także pozycja globalna jest
+  odrzucona (np. stacja przesunięta o > 450 km), pozycja statku jest **unieważniana** (NONE)
+  zamiast publikować znaną błędną. Wniosek do pracy: jako dane referencyjne używać
+  **VERIFIED**, ewentualnie GLOBAL; pozycje LOCAL z pierwszych sekund śledzenia dalekich
+  statków mogą być błędne.
 - T1.4: niewielki błąd pozycji stacji nie psuje pozycji samolotu (dekodowanie lokalne
   toleruje setki km), ale **psuje kierunek**: 1 km błędu stacji daje do ok. 1° błędu azymutu
   dla bliskiego statku. To argument za GPS w stacji.
@@ -260,8 +263,11 @@ Próg: maks. < 80 °C (*wartość progu dławienia RPi 4 sprawdź w dokumentacji
 ### T8.1 – przesunięcie zegara (z NTP / bez NTP) i ustalenie F1
 
 Analiza czasu jest w każdej sesji (wykres `rys_zegar_*`, wiersze δ̂, σ_δ, skoki).
-- **Z NTP** (RPi z internetem): zegar RPi jest poprawny, więc δ̂ ≈ −(opóźnienie zdania NMEA).
-  Tę wartość z przeciwnym znakiem wpisuje się jako parametr `gps_delay` węzła `decoder_node`.
+- **Z NTP** (RPi z internetem): zegar RPi jest poprawny, więc δ̂ ≈ 0 s, jeśli `gps_delay` jest
+  dobrze dobrany. `gps_delay` = opóźnienie zdania RMC; zmierzone 2026-11-24: **0,150 s**, ustawione
+  w `start_nodes.sh` (`--ros-args -p gps_delay:=0.150`). Analiza używa tej samej wartości
+  (`analiza_sesji.py --gps-delay 0.150`, domyślnie). Jeśli przy NTP δ̂ wyraźnie różni się od 0,
+  zmierz ponownie i popraw obie wartości.
 - **Bez NTP** (teren): δ̂ może wynosić godziny lub dni. Sprawdzamy, czy korekta na żywo
   (`time_source = 1` w `/aircraft/state`) zgadza się z korektą końcową (wiersz w wydruku
   „korekta na żywo vs końcowa”).

@@ -30,6 +30,7 @@ WIERSZE = [  # (etykieta LaTeX, funkcja -> tekst)
      lambda r, k: f"{fmt(r['W4_kappa_dek_proc'], 1)} / {fmt(r['W4_kappa_sbs_proc'], 1)}"),
     (r'$\eta_V$ [\%]', lambda r, k: fmt(r['W2_eta_V_proc'], 1)),
     (r'$\eta_R$ [\%]', lambda r, k: fmt(r['W2_eta_R_proc'], 2)),
+    ('Niezgodności metod', lambda r, k: str(r.get('W2_niezgodne', '--'))),
     (r'$\tilde T_{\mathrm{L}}$ / $\tilde T_{\mathrm{V}}$ / $\tilde T_{\mathrm{SBS}}$ [s]',
      lambda r, k: f"{fmt(r['W3_T1_local_s_mediana'], 2)} / {fmt(r['W3_T1_verified_s_mediana'], 1)}"
                   f" / {fmt(r['W3_T1_sbs_s_mediana'], 1)}"),

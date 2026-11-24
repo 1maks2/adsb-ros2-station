@@ -162,7 +162,7 @@ def main():
 
     w = SessionWriter(a.folder, TRUE0 + RPI_OFF)
     d = dec.AdsbDecoder()
-    clk = ClockOffset()
+    clk = ClockOffset(gps_delay=0.150)   # jak w start_nodes.sh
     sbs_pipe = pyModeS.PipeDecoder()
     next_gps = 0.0
     ei = 0
